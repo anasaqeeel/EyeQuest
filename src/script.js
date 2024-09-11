@@ -33,6 +33,7 @@ renderer.setPixelRatio(window.devicePixelRatio); // Adjust for high-DPI screens
 scene.background = new THREE.Color(0xcccccc); // Light gray background for better visibility
 
 // Add lights to the scene
+// coder is fucking cat meow x69 bang bang andr
 const ambientLight = new THREE.AmbientLight(0x000000, 0.5); // Ambient light
 scene.add(ambientLight);
 
