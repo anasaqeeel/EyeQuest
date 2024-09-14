@@ -1,7 +1,7 @@
 // src/pages/EasyRoom.js
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import EasyRoomScene from '../components/EasyRoomScene';
+import EasyRoomScene from '../components/MediumRoomScene';
 import { OrbitControls } from '@react-three/drei';
 import './EasyRoom.css';
 

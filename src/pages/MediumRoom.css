@@ -1,0 +1,24 @@
+/* src/pages/EasyRoom.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling */
+    height: 100%; /* Ensures full height */
+  }
+  
+  .canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height for the container */
+    width: 100vw; /* Full width for the container */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .canvas {
+    display: block; /* Ensures no inline block space below */
+    width: 100%;
+    height: 100%;
+  }
+  
