@@ -1,0 +1,11 @@
+Model Information:
+* title:	Frag Knife
+* source:	https://sketchfab.com/3d-models/frag-knife-56a2e7624a894e5e86f2015c75f149f5
+* author:	Jonathan Steylaerts (https://sketchfab.com/JonathanSteylaerts)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Frag Knife" (https://sketchfab.com/3d-models/frag-knife-56a2e7624a894e5e86f2015c75f149f5) by Jonathan Steylaerts (https://sketchfab.com/JonathanSteylaerts) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

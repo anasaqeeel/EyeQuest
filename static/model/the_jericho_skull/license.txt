@@ -1,0 +1,11 @@
+Model Information:
+* title:	The Jericho Skull
+* source:	https://sketchfab.com/3d-models/the-jericho-skull-bdcf4843e0964da2931aa7ab1fc1b99d
+* author:	The British Museum (https://sketchfab.com/britishmuseum)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "The Jericho Skull" (https://sketchfab.com/3d-models/the-jericho-skull-bdcf4843e0964da2931aa7ab1fc1b99d) by The British Museum (https://sketchfab.com/britishmuseum) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
