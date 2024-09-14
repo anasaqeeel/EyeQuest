@@ -1,0 +1,11 @@
+Model Information:
+* title:	Portrait bust of Alexander the Great
+* source:	https://sketchfab.com/3d-models/portrait-bust-of-alexander-the-great-7dcb19d12bdf44e6bcd7d8787923e9a6
+* author:	platanou (https://sketchfab.com/platanou)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Portrait bust of Alexander the Great" (https://sketchfab.com/3d-models/portrait-bust-of-alexander-the-great-7dcb19d12bdf44e6bcd7d8787923e9a6) by platanou (https://sketchfab.com/platanou) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

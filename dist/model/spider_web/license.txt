@@ -1,0 +1,11 @@
+Model Information:
+* title:	Spider Web
+* source:	https://sketchfab.com/3d-models/spider-web-d1dc6c0b4b3a491c961a56342e3a4f7d
+* author:	SUNLU3D (https://sketchfab.com/SUNLU3D)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Spider Web" (https://sketchfab.com/3d-models/spider-web-d1dc6c0b4b3a491c961a56342e3a4f7d) by SUNLU3D (https://sketchfab.com/SUNLU3D) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)

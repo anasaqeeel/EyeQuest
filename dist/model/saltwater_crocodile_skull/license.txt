@@ -1,0 +1,11 @@
+Model Information:
+* title:	Saltwater Crocodile Skull
+* source:	https://sketchfab.com/3d-models/saltwater-crocodile-skull-7ab8c721e8724897a6d1b8b9c54d4016
+* author:	University of Dundee Museum Collections (https://sketchfab.com/uod_museums)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Saltwater Crocodile Skull" (https://sketchfab.com/3d-models/saltwater-crocodile-skull-7ab8c721e8724897a6d1b8b9c54d4016) by University of Dundee Museum Collections (https://sketchfab.com/uod_museums) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
