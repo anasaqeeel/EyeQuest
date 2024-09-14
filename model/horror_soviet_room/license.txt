@@ -1,0 +1,11 @@
+Model Information:
+* title:	Horror Soviet Room
+* source:	https://sketchfab.com/3d-models/horror-soviet-room-db0695f8e6a849f9a5e884b5c9fcf128
+* author:	maximkuzlin (https://sketchfab.com/maximkuzlin)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Horror Soviet Room" (https://sketchfab.com/3d-models/horror-soviet-room-db0695f8e6a849f9a5e884b5c9fcf128) by maximkuzlin (https://sketchfab.com/maximkuzlin) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
