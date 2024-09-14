@@ -34,7 +34,6 @@ renderer.setPixelRatio(window.devicePixelRatio); // Adjust for high-DPI screens
 scene.background = new THREE.Color(0xcccccc); // Light gray background for better visibility
 
 // Add lights to the scene
-// coder is fucking cat meow x69 bang bang andr
 const ambientLight = new THREE.AmbientLight(0xFF7F7F, 0.5); // Ambient light
 scene.add(ambientLight);
 
@@ -48,6 +47,9 @@ controls.enableDamping = true;
 
 let position = 0;
 
+// Declare a variable for the snake object
+let snake;
+
 // GLTF Loader for the main room
 const gltfLoader = new GLTFLoader();
 gltfLoader.load('/model/horror_room/scene.gltf', (gltf) => {
@@ -57,10 +59,10 @@ gltfLoader.load('/model/horror_room/scene.gltf', (gltf) => {
 
   model.traverse((child) => {
     if (child.isMesh) {
-      console.log(`Mesh found:`, child);
-      console.log(`Position:`, child.position);
-      console.log(`Scale:`, child.scale);
-      console.log(`Material:`, child.material);
+      console.log('Mesh found:', child);
+      console.log('Position:', child.position);
+      console.log('Scale:', child.scale);
+      console.log('Material:', child.material);
 
       // Ensure materials are visible
       child.material.transparent = false;
@@ -103,142 +105,11 @@ const gltfLoader2 = new GLTFLoader();
 //   skull.scale.set(0.05, 0.05, 0.05); // Adjust the scale if needed
 //   skull.rotation.set(0.8, 1.8, 0);
 
-//   console.log('Additional 3D object loaded:', object);
+//   console.log('Additional 3D object loaded:', skull);
 // });
-// const gltfLoader4 = new GLTFLoader();
-// gltfLoader4.load('/model/goblin/scene.gltf', (gltf) => {
-//   const goblin = gltf.scene;
-//   scene.add(goblin);
+// ... (other commented loaders)
 
-//   // Set the position, scale, and rotation of the object
-//   goblin.position.set(1.8, 0.3, 0.9); // Adjust the position as needed
-//   goblin.scale.set(0.005, 0.005, 0.005); // Adjust the scale if needed
-//   goblin.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// const gltfLoader5 = new GLTFLoader();
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(-1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.5, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
-// gltfLoader5.load('/model/spider_web/scene.gltf', (gltf) => {
-//   const ghost = gltf.scene;
-//   scene.add(ghost);
-
-//   // Set the position, scale, and rotation of the object
-//   ghost.position.set(1.8, 1.3, 0.9); // Adjust the position as needed
-//   ghost.scale.set(0.0005, 0.0005, 0.0005); // Adjust the scale if needed
-//   ghost.rotation.set(0.8, 2.4, 0);
-
-//   console.log('Additional 3D object loaded:', object);
-// });
+// GLTF Loader for the frag_knife
 const gltfLoader3 = new GLTFLoader();
 gltfLoader3.load('/model/frag_knife/scene.gltf', (gltf) => {
   const fragKnife = gltf.scene;
@@ -252,9 +123,11 @@ gltfLoader3.load('/model/frag_knife/scene.gltf', (gltf) => {
 
   console.log('Additional 3D object loaded:', fragKnife);
 });
+
+// GLTF Loader for the snake with movement
 const gltfLoader6 = new GLTFLoader();
 gltfLoader6.load('/model/snake/scene.gltf', (gltf) => {
-  const snake = gltf.scene;
+  snake = gltf.scene;
   scene.add(snake);
 
   // Set the position, scale, and rotation of the object
@@ -266,18 +139,7 @@ gltfLoader6.load('/model/snake/scene.gltf', (gltf) => {
   console.log('Additional 3D object loaded:', snake);
 });
 
-// const gltfLoader7 = new GLTFLoader();
-// gltfLoader7.load('/model/low_poly_dead_body_covered_game_ready/scene.gltf', (gltf) => {
-//   const dead = gltf.scene;
-//   scene.add(dead);
-
-//   // Set the position, scale, and rotation of the object
-//   dead.position.set(-1.8, 0.92, 1.8); // Adjust the position as needed
-//   dead.scale.set(0.6, 0.6, 0.6); // Adjust the scale if needed
-//   dead.rotation.set(0, 1.8, 0); // Adjust the rotation if needed
-
-//   console.log('Additional 3D object loaded:', object);
-// });
+// GLTF Loader for other objects
 const gltfLoader8 = new GLTFLoader();
 gltfLoader8.load('/model/dead_body/scene.gltf', (gltf) => {
   const deadBody = gltf.scene;
@@ -288,8 +150,10 @@ gltfLoader8.load('/model/dead_body/scene.gltf', (gltf) => {
   deadBody.scale.set(0.009, 0.009, 0.009); // Adjust the scale if needed
   deadBody.rotation.set(1.5, 3.0, 0); // Adjust the rotation if needed
   objectsToCheck.push(deadBody);
+
   console.log('Additional 3D object loaded:', deadBody);
 });
+
 const gltfLoader9 = new GLTFLoader();
 gltfLoader9.load('/model/skull_downloadable/scene.gltf', (gltf) => {
   const skull = gltf.scene;
@@ -303,6 +167,7 @@ gltfLoader9.load('/model/skull_downloadable/scene.gltf', (gltf) => {
 
   console.log('Additional 3D object loaded:', skull);
 });
+
 const gltfLoader10 = new GLTFLoader();
 gltfLoader10.load('/model/skeleton/scene.gltf', (gltf) => {
   const skeleton = gltf.scene;
@@ -316,6 +181,7 @@ gltfLoader10.load('/model/skeleton/scene.gltf', (gltf) => {
 
   console.log('Additional 3D object loaded:', skeleton);
 });
+
 const gltfLoader11 = new GLTFLoader();
 gltfLoader11.load('/model/blood_spattered/scene.gltf', (gltf) => {
   const bloodSpattered = gltf.scene;
@@ -329,6 +195,7 @@ gltfLoader11.load('/model/blood_spattered/scene.gltf', (gltf) => {
 
   console.log('Additional 3D object loaded:', bloodSpattered);
 });
+
 const gltfLoader12 = new GLTFLoader();
 gltfLoader12.load('/model/peinture_portrait_edmon_picard_1884/scene.gltf', (gltf) => {
   const portrait = gltf.scene;
@@ -341,6 +208,7 @@ gltfLoader12.load('/model/peinture_portrait_edmon_picard_1884/scene.gltf', (gltf
 
   console.log('Additional 3D object loaded:', portrait);
 });
+
 const gltfLoader13 = new GLTFLoader();
 gltfLoader13.load('/model/carpet_fluffy/scene.gltf', (gltf) => {
   const carpet = gltf.scene;
@@ -353,6 +221,7 @@ gltfLoader13.load('/model/carpet_fluffy/scene.gltf', (gltf) => {
 
   console.log('Additional 3D object loaded:', carpet);
 });
+
 // Functions to move and rotate the camera
 function cameraMovement(x, y, z) {
   gsap.to(camera.position, {
@@ -376,12 +245,23 @@ function cameraRotation(x, y, z) {
 const animate = () => {
   renderer.render(scene, camera);
   controls.update();
+
+  // Animate the snake if it's loaded
+  if (snake) {
+    // Increase the rotation speed
+    snake.rotation.y += 0.05; // Increased from 0.01 to 0.05
+
+    // Increase the movement speed
+    snake.position.x = 0.5 + Math.sin(Date.now() * 0.005) * 2; // Adjusted multiplier for speed and range
+
+    // Optional: Randomize movement for unpredictability
+    snake.position.z = 2.8 + Math.cos(Date.now() * 0.006) * 1; // Added Z-axis movement
+  }
 };
 
 renderer.setAnimationLoop(animate);
 
 animate();
-// const objectsToCheck = [fragKnife, snake, skull, skeleton, bloodSpattered, deadBody];
 
 // Expose shared objects to window for WebGazer
 window.sharedScene = scene;
