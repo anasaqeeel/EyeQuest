@@ -9,7 +9,7 @@ const LandingPage = () => (
     <div className="game-modes">
       <Link to="/easy">Easy Mode</Link>
       <Link to="/medium">Medium Mode</Link>
-      <Link to="/hard">Hard dick Mode</Link>
+      <Link to="/hard">Hard Mode</Link>
     </div>
   </div>
 );
