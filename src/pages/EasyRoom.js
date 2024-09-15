@@ -1,13 +1,11 @@
-// src/pages/EasyRoom.js
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import EasyRoomScene from '../components/MediumRoomScene';
+import EasyRoomScene from '../components/EasyRoomScene';
 import { OrbitControls } from '@react-three/drei';
 import './EasyRoom.css';
 
 const EasyRoom = () => (
   <div className="canvas-container">
-    {/* This div ensures the Canvas fills the viewport */}
     <Canvas
       camera={{ position: [-2, 1.995, 2.9], fov: 45, near: 0.1, far: 1000 }}
       className="canvas"

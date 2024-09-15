@@ -1,7 +1,6 @@
-// src/components/HardRoomScene.js
 import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';  // Corrected import here
-import { useGLTF } from '@react-three/drei';  // Use useGLTF from drei
+import { useFrame } from '@react-three/fiber';  
+import { useGLTF } from '@react-three/drei';  
 
 const HardRoomScene = () => {
   const snakeRef = useRef();

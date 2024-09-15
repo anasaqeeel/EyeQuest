@@ -1,4 +1,3 @@
-// src/pages/MediumRoom.js
 import React, { Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import MediumRoomScene from '../components/MediumRoomScene';
@@ -11,7 +10,7 @@ const MediumRoom = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsGameOver(true);
-        }, 25000); // 10 seconds
+        }, 25000); // 25 seconds
 
         return () => clearTimeout(timer);
     }, []);

@@ -1,7 +1,6 @@
-// src/pages/HardRoom.js
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import HardRoomScene from '../components/HardRoomScene'; // This should be similar to EasyRoomScene but with the snake movement included.
+import HardRoomScene from '../components/HardRoomScene'; 
 import { OrbitControls } from '@react-three/drei';
 import './HardRoom.css';
 
