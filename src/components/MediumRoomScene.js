@@ -1,15 +1,21 @@
+// MediumRoomScene.js
 import React from 'react';
 import { useGLTF } from '@react-three/drei';
 
-const MediumRoomScene = () => {
-  const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
-  const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
-  const { scene: deadBodyScene } = useGLTF('/model/dead_body/scene.gltf');
-  const { scene: skullScene } = useGLTF('/model/skull_downloadable/scene.gltf');
-  const { scene: skeletonScene } = useGLTF('/model/skeleton/scene.gltf');
-  const { scene: bloodSpatteredScene } = useGLTF('/model/blood_spattered/scene.gltf');
-  const { scene: portraitScene } = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf');
-  const { scene: carpetScene } = useGLTF('/model/carpet_fluffy/scene.gltf');
+const MediumRoomScene = ({ onLoaded }) => {
+  const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf', true);
+  const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf', true);
+  const { scene: deadBodyScene } = useGLTF('/model/dead_body/scene.gltf', true);
+  const { scene: skullScene } = useGLTF('/model/skull_downloadable/scene.gltf', true);
+  const { scene: skeletonScene } = useGLTF('/model/skeleton/scene.gltf', true);
+  const { scene: bloodSpatteredScene } = useGLTF('/model/blood_spattered/scene.gltf', true);
+  const { scene: portraitScene } = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf', true);
+  const { scene: carpetScene } = useGLTF('/model/carpet_fluffy/scene.gltf', true);
+
+  // Call onLoaded when all models are loaded
+  React.useEffect(() => {
+    onLoaded(); // Trigger the callback when all models are loaded
+  }, [onLoaded]);
 
   return (
     <>

@@ -1,13 +1,23 @@
+// WebGazerComponent.js
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
-const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore }) => {
+const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore, isGameOver }) => {
   let score = 0;
   let gazeHistory = [];
   const gazedObjects = useRef(new Set()); // Track which objects have been gazed at
   const webgazerTimeout = useRef(null); // Store the timeout for stopping WebGazer
 
   useEffect(() => {
+    if (isGameOver) {
+      // Stop WebGazer if the game is over
+      if (window.webgazer) {
+        window.webgazer.end();
+        console.log('WebGazer stopped due to game over.');
+      }
+      return;
+    }
+
     // Initialize WebGazer if available
     if (!window.webgazer) {
       console.error('WebGazer not found');
@@ -117,7 +127,7 @@ const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore }) => {
       clearTimeout(webgazerTimeout.current); // Clear the timeout if the component unmounts
       window.webgazer.end();
     };
-  }, [camera, renderer, objectsToCheck, setScore]); // Dependencies
+  }, [camera, renderer, objectsToCheck, setScore, isGameOver]); // Dependencies
 
   return null; // This component doesn't render anything
 };
