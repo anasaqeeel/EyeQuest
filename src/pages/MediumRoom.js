@@ -1,9 +1,8 @@
 // MediumRoom.js
-import React, { Suspense, useState, useEffect, useRef } from 'react';
+import React, { Suspense, useState, useRef, useEffect } from 'react'; // Added useRef and useEffect
 import { Canvas } from '@react-three/fiber';
 import MediumRoomScene from '../components/MediumRoomScene';
 import { OrbitControls } from '@react-three/drei';
-import WebGazerComponent from '../hooks/WebGazerComponent'; // Import your WebGazerComponent
 import './MediumRoom.css';
 
 const MediumRoom = () => {
@@ -34,44 +33,82 @@ const MediumRoom = () => {
     useEffect(() => {
         if (isGameOver) {
             // Stop the WebGazer when the game is over
-            if (window.webgazer) {
-                window.webgazer.end();
+            if (window.webgazer && typeof window.webgazer.end === 'function') {
+                try {
+                    window.webgazer.end();
+                } catch (error) {
+                    console.warn('Error stopping WebGazer:', error);
+                }
             }
             console.log('Game Over! Your final score:', score);
+            alert(`Game Over! Your final score: ${score}`);
         }
-    }, [isGameOver]);
+    }, [isGameOver, score]);
 
     return (
-        <div className="canvas-container">
-            {!isLoaded && <div className="loading-message">Loading...</div>}
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <Canvas
+                camera={{ position: [-2, 1.995, 2.9], fov: 45, near: 0.1, far: 1000 }}
+                style={{ width: '100%', height: '100%' }}
+            >
+                <ambientLight intensity={0.5} color="#ffffff" />
+                <directionalLight intensity={1} position={[10, 10, 10]} color="#ffffff" />
+                <Suspense fallback={null}>
+                    <MediumRoomScene onLoaded={() => setIsLoaded(true)} setScore={setScore} />
+                </Suspense>
+                <OrbitControls enableDamping={true} />
+            </Canvas>
+            {/* Timer Display */}
             {!isGameOver && isLoaded && (
-                <div className="timer-display">
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '10px',
+                        left: '10px',
+                        color: 'white',
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        zIndex: 1000,
+                    }}
+                >
                     Time Left: {timeLeft} seconds
                 </div>
             )}
-            {isGameOver && <div className="game-over">Game Over!</div>}
-            <Canvas
-                camera={{ position: [-2, 1.995, 2.9], fov: 45, near: 0.1, far: 1000 }}
-                className="canvas"
+            {/* Score Display */}
+            <div
+                style={{
+                    position: 'fixed',
+                    top: '10px',
+                    right: '10px',
+                    color: 'white',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    zIndex: 1000,
+                }}
             >
-                <ambientLight intensity={0.5} color={0xffffff} />
-                <directionalLight intensity={1} position={[10, 10, 10]} color={0xffffff} />
-                <Suspense fallback={null}>
-                    <MediumRoomScene onLoaded={() => setIsLoaded(true)} /> {/* Pass onLoaded callback */}
-                </Suspense>
-                <OrbitControls enableDamping={true} />
-
-                {/* WebGazerComponent will run as part of this Canvas, and we stop it when the game is over */}
-                {!isGameOver && isLoaded && (
-                    <WebGazerComponent
-                        camera={undefined}
-                        renderer={undefined}
-                        objectsToCheck={undefined}
-                        setScore={setScore}
-                        isGameOver={isGameOver} // Pass the isGameOver prop here
-                    />
-                )}
-            </Canvas>
+                Score: {score}
+            </div>
+            {isGameOver && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'white',
+                        fontSize: '36px',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Game Over!
+                </div>
+            )}
         </div>
     );
 };

@@ -1,11 +1,21 @@
-import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';  
-import { useGLTF } from '@react-three/drei';  
+// HardRoomScene.js
+import React, { useRef, useState, useEffect } from 'react';
+import { useThree } from '@react-three/fiber';
+import { useGLTF, Html } from '@react-three/drei';
+import * as THREE from 'three';
+import WebGazerComponent from '../hooks/WebGazerComponent';
 
-const HardRoomScene = () => {
+const HardRoomScene = ({ onLoaded, setScore }) => {
   const snakeRef = useRef();
+  const fragKnifeRef = useRef();
+  const deadBodyRef = useRef();
+  const skullRef = useRef();
+  const skeletonRef = useRef();
+  const bloodSpatteredRef = useRef();
+  const portraitRef = useRef();
+  const carpetRef = useRef();
 
-  // Load models
+  const [objectsReady, setObjectsReady] = useState(false);
   const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
   const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
   const { scene: snakeScene } = useGLTF('/model/snake/scene.gltf');
@@ -16,24 +26,114 @@ const HardRoomScene = () => {
   const { scene: portraitScene } = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf');
   const { scene: carpetScene } = useGLTF('/model/carpet_fluffy/scene.gltf');
 
-  // Animation for the snake
-  useFrame(({ clock }) => {
-    if (snakeRef.current) {
-      // Rotate the snake
-      snakeRef.current.rotation.y += 0.05;
+  const { camera, gl: renderer } = useThree();
 
-      // Move the snake based on a sine and cosine function for dynamic positioning
-      snakeRef.current.position.x = 0.5 + Math.sin(clock.getElapsedTime() * 5) * 2;
-      snakeRef.current.position.z = 2.8 + Math.cos(clock.getElapsedTime() * 5) * 1;
+  const objectsToCheck = [
+    snakeRef.current,
+    fragKnifeRef.current,
+    deadBodyRef.current,
+    skullRef.current,
+    skeletonRef.current,
+    bloodSpatteredRef.current,
+    portraitRef.current,
+    carpetRef.current,
+  ];
+
+  // Ensure all objects are loaded before starting the game and WebGazer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (
+        snakeRef.current &&
+        fragKnifeRef.current &&
+        deadBodyRef.current &&
+        skullRef.current &&
+        skeletonRef.current &&
+        bloodSpatteredRef.current &&
+        portraitRef.current &&
+        carpetRef.current
+      ) {
+        setObjectsReady(true);
+        onLoaded(); // Notify parent that loading is complete
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [onLoaded]);
+
+  // Initialize WebGazer and handle snake animation
+  useEffect(() => {
+    let script;
+    if (objectsReady) {
+      script = document.createElement('script');
+      script.src = 'https://webgazer.cs.brown.edu/webgazer.js';
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        if (window.webgazer) {
+          window.webgazer
+            .setRegression('ridge')
+            .setGazeListener((data, elapsedTime) => {
+              // Your gaze listener code here
+            })
+            .begin();
+        }
+      };
     }
-  });
+
+    return () => {
+      if (window.webgazer && typeof window.webgazer.end === 'function') {
+        try {
+          window.webgazer.end();
+        } catch (error) {
+          console.error('Error ending WebGazer:', error);
+        }
+        window.webgazer = null;
+      }
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, [objectsReady]);
+
+  // Animation for the snake
+  useEffect(() => {
+    const animateSnake = (clock) => {
+      if (snakeRef.current) {
+        // Rotate the snake
+        snakeRef.current.rotation.y += 0.05;
+
+        // Move the snake in a figure-eight pattern
+        const time = clock.getElapsedTime();
+        const radius = 2; // Adjust as needed
+        const speed = 1; // Adjust as needed
+
+        snakeRef.current.position.x = radius * Math.sin(speed * time);
+        snakeRef.current.position.z = radius * Math.sin(speed * time) * Math.cos(speed * time);
+      }
+    };
+
+    // Add a frame listener
+    const { clock } = useThree();
+    const handleFrame = () => animateSnake(clock);
+
+    const unsubscribe = useThree().gl.setAnimationLoop(handleFrame);
+
+    return () => {
+      useThree().gl.setAnimationLoop(null);
+    };
+  }, [snakeRef, useThree]);
 
   return (
     <>
-      {/* Models */}
+      <ambientLight intensity={0.5} color="#ffffff" />
+      <directionalLight intensity={1} position={[10, 10, 10]} color="#ffffff" />
+
       <primitive object={horrorRoomScene} position={[0, 0, 0]} />
 
       <primitive
+        ref={fragKnifeRef}
         object={fragKnifeScene}
         position={[0, 0.2, 0]}
         scale={[0.2, 0.2, 0.2]}
@@ -49,6 +149,7 @@ const HardRoomScene = () => {
       />
 
       <primitive
+        ref={deadBodyRef}
         object={deadBodyScene}
         position={[1.8, 0.1, 0]}
         scale={[0.009, 0.009, 0.009]}
@@ -56,6 +157,7 @@ const HardRoomScene = () => {
       />
 
       <primitive
+        ref={skullRef}
         object={skullScene}
         position={[-1.8, 1.0, 1.5]}
         scale={[0.2, 0.2, 0.2]}
@@ -63,6 +165,7 @@ const HardRoomScene = () => {
       />
 
       <primitive
+        ref={skeletonRef}
         object={skeletonScene}
         position={[-2.8, 0.7, 1.5]}
         scale={[0.5, 0.5, 0.5]}
@@ -70,6 +173,7 @@ const HardRoomScene = () => {
       />
 
       <primitive
+        ref={bloodSpatteredRef}
         object={bloodSpatteredScene}
         position={[0, 0.05, 1.5]}
         scale={[0.05, 0.05, 0.05]}
@@ -77,6 +181,7 @@ const HardRoomScene = () => {
       />
 
       <primitive
+        ref={portraitRef}
         object={portraitScene}
         position={[-1.8, 1.6, 3.2]}
         scale={[0.04, 0.04, 0.04]}
@@ -84,11 +189,38 @@ const HardRoomScene = () => {
       />
 
       <primitive
+        ref={carpetRef}
         object={carpetScene}
         position={[-1.6, 0.1, 0]}
         scale={[0.6, 0.6, 0.6]}
         rotation={[0, 1.5, 0]}
       />
+
+      {/* Score Display using Html component */}
+      <Html position={[0, 2, 0]}>
+        <div
+          style={{
+            color: 'white',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            padding: '10px',
+            borderRadius: '5px',
+          }}
+        >
+          Score: {score}
+        </div>
+      </Html>
+
+      {/* Start WebGazerComponent */}
+      {objectsReady && (
+        <WebGazerComponent
+          camera={camera}
+          renderer={renderer}
+          objectsToCheck={objectsToCheck}
+          setScore={setScore}
+        />
+      )}
     </>
   );
 };

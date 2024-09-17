@@ -1,56 +1,57 @@
-// WebGazerComponent.js
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore, isGameOver }) => {
-  let score = 0;
-  let gazeHistory = [];
+const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore }) => {
+  const gazeHistory = [];
   const gazedObjects = useRef(new Set()); // Track which objects have been gazed at
-  const webgazerTimeout = useRef(null); // Store the timeout for stopping WebGazer
+  const gazeTimers = useRef({}); // Track how long the user gazes at each object
+  const gameTimeout = useRef(null); // Store the game timeout
+
+  const [isWebGazerInitialized, setIsWebGazerInitialized] = useState(false); // Track WebGazer initialization
 
   useEffect(() => {
-    if (isGameOver) {
-      // Stop WebGazer if the game is over
-      if (window.webgazer) {
-        window.webgazer.end();
-        console.log('WebGazer stopped due to game over.');
+    // Dynamically load the WebGazer script
+    const script = document.createElement('script');
+    script.src = 'https://webgazer.cs.brown.edu/webgazer.js'; // Make sure this URL is correct and accessible
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      if (!window.webgazer) {
+        console.error('WebGazer not found');
+        return;
       }
-      return;
-    }
 
-    // Initialize WebGazer if available
-    if (!window.webgazer) {
-      console.error('WebGazer not found');
-      return;
-    }
-
-    // Start WebGazer and set up gaze listener
-    window.webgazer
-      .setGazeListener((data) => {
-        if (!data) {
-          console.log('No gaze data available');
-          return;
+      window.webgazer.setGazeListener((data, timestamp) => {
+        if (data) {
+          const { x, y } = data;
+          smoothGaze(x, y);
         }
-        const { x, y } = data;
-        smoothGaze(x, y);
-      })
-      .begin()
-      .catch((error) => console.error('WebGazer Initialization Error:', error));
+      });
 
-    window.webgazer.setTracker('TFFacemesh');
-    window.webgazer.setRegression('ridge');
-    window.webgazer.showPredictionPoints(true);
+      if (!isWebGazerInitialized) {
+        // Start WebGazer
+        window.webgazer
+          .begin()
+          .then(() => {
+            console.log('WebGazer started');
+          })
+          .catch((error) =>
+            console.error('WebGazer Initialization Error:', error)
+          );
 
-    // Set timeout to stop WebGazer after 5 minutes
-    webgazerTimeout.current = setTimeout(() => {
-      console.log('Stopping WebGazer after 5 minutes.');
-      window.webgazer.end();
-    }, 300000); // 5 minutes = 300000 ms
+        window.webgazer.setTracker('TFFacemesh');
+        window.webgazer.setRegression('ridge');
+        window.webgazer.showPredictionPoints(true);
+
+        setIsWebGazerInitialized(true); // Mark as initialized to prevent reinitialization
+      }
+    };
 
     // Smooth gaze data function to avoid jitter
     const smoothGaze = (x, y) => {
       gazeHistory.push({ x, y });
-      if (gazeHistory.length > 10) {
+      if (gazeHistory.length > 20) {
         gazeHistory.shift();
       }
 
@@ -85,18 +86,12 @@ const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore, isGameO
             Math.abs(x - screenPosition.x) <= radius &&
             Math.abs(y - screenPosition.y) <= radius
           ) {
-            // If this object hasn't been gazed at before, increase the score
             if (!gazedObjects.current.has(index)) {
               gazedObjects.current.add(index); // Mark this object as gazed at
-              score++;
-              updateScoreDisplay();
-              console.log(`Object ${index} is within gaze range. Score increased.`);
-            } else {
-              console.log(`Object ${index} has already been gazed at.`);
+              setScore((prevScore) => prevScore + 1); // Update the top-right score
+              checkVictory();
             }
           }
-        } else {
-          console.log(`Object ${index} is undefined.`);
         }
       });
     };
@@ -116,20 +111,39 @@ const WebGazerComponent = ({ camera, renderer, objectsToCheck, setScore, isGameO
       return { x: vector.x, y: vector.y };
     };
 
-    // Update score display in the DOM
-    const updateScoreDisplay = () => {
-      setScore(score);
-      console.log(`Score updated: ${score}`);
+    // Check if all objects have been detected
+    const checkVictory = () => {
+      if (gazedObjects.current.size === objectsToCheck.length) {
+        declareVictory();
+      }
+    };
+
+    // Declare victory and stop WebGazer
+    const declareVictory = () => {
+      clearTimeout(gameTimeout.current);
+      if (window.webgazer && typeof window.webgazer.end === 'function') {
+        window.webgazer.end();
+      }
+      alert('Victory! All objects have been detected.');
     };
 
     // Clean up on unmount
     return () => {
-      clearTimeout(webgazerTimeout.current); // Clear the timeout if the component unmounts
-      window.webgazer.end();
+      if (window.webgazer && typeof window.webgazer.end === 'function') {
+        try {
+          window.webgazer.end();
+          console.log('WebGazer ended');
+        } catch (error) {
+          console.error('Error ending WebGazer:', error);
+        }
+      }
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
     };
-  }, [camera, renderer, objectsToCheck, setScore, isGameOver]); // Dependencies
+  }, [isWebGazerInitialized, camera, renderer, objectsToCheck, setScore]); // Add dependencies for objects that might change
 
-  return null; // This component doesn't render anything
+  return null; // No need for additional rendering here
 };
 
 export default WebGazerComponent;

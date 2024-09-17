@@ -1,28 +1,66 @@
 // MediumRoomScene.js
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
+import * as THREE from 'three';
+import WebGazerComponent from '../hooks/WebGazerComponent';
 
-const MediumRoomScene = ({ onLoaded }) => {
-  const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf', true);
-  const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf', true);
-  const { scene: deadBodyScene } = useGLTF('/model/dead_body/scene.gltf', true);
-  const { scene: skullScene } = useGLTF('/model/skull_downloadable/scene.gltf', true);
-  const { scene: skeletonScene } = useGLTF('/model/skeleton/scene.gltf', true);
-  const { scene: bloodSpatteredScene } = useGLTF('/model/blood_spattered/scene.gltf', true);
-  const { scene: portraitScene } = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf', true);
-  const { scene: carpetScene } = useGLTF('/model/carpet_fluffy/scene.gltf', true);
+const MediumRoomScene = ({ onLoaded, setScore }) => {
+  const fragKnifeRef = useRef();
+  const skullRef = useRef();
+  const skeletonRef = useRef();
+  const bloodSpatteredRef = useRef();
+  const portraitRef = useRef();
+  const carpetRef = useRef();
 
-  // Call onLoaded when all models are loaded
-  React.useEffect(() => {
-    onLoaded(); // Trigger the callback when all models are loaded
+  const [objectsReady, setObjectsReady] = useState(false);
+  const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
+  const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
+  const { scene: skullScene } = useGLTF('/model/skull_downloadable/scene.gltf');
+  const { scene: skeletonScene } = useGLTF('/model/skeleton/scene.gltf');
+  const { scene: bloodSpatteredScene } = useGLTF('/model/blood_spattered/scene.gltf');
+  const { scene: portraitScene } = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf');
+  const { scene: carpetScene } = useGLTF('/model/carpet_fluffy/scene.gltf');
+
+  const { camera, gl: renderer } = useThree();
+
+  const objectsToCheck = [
+    fragKnifeRef.current,
+    skullRef.current,
+    skeletonRef.current,
+    bloodSpatteredRef.current,
+    portraitRef.current,
+    carpetRef.current,
+  ];
+
+  // Ensure all objects are loaded before starting the game and WebGazer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (
+        fragKnifeRef.current &&
+        skullRef.current &&
+        skeletonRef.current &&
+        bloodSpatteredRef.current &&
+        portraitRef.current &&
+        carpetRef.current
+      ) {
+        setObjectsReady(true);
+        onLoaded(); // Notify parent that loading is complete
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
   }, [onLoaded]);
 
   return (
     <>
-      {/* Models */}
+      {/* Add the room scene */}
       <primitive object={horrorRoomScene} position={[0, 0, 0]} />
 
+      {/* Add models with refs to track their gaze */}
       <primitive
+        ref={fragKnifeRef}
         object={fragKnifeScene}
         position={[0, 0.2, 0]}
         scale={[0.2, 0.2, 0.2]}
@@ -30,13 +68,7 @@ const MediumRoomScene = ({ onLoaded }) => {
       />
 
       <primitive
-        object={deadBodyScene}
-        position={[1.8, 0.1, 0]}
-        scale={[0.009, 0.009, 0.009]}
-        rotation={[1.5, 3.0, 0]}
-      />
-
-      <primitive
+        ref={skullRef}
         object={skullScene}
         position={[-1.8, 1.0, 1.5]}
         scale={[0.2, 0.2, 0.2]}
@@ -44,6 +76,7 @@ const MediumRoomScene = ({ onLoaded }) => {
       />
 
       <primitive
+        ref={skeletonRef}
         object={skeletonScene}
         position={[-2.8, 0.7, 1.5]}
         scale={[0.5, 0.5, 0.5]}
@@ -51,6 +84,7 @@ const MediumRoomScene = ({ onLoaded }) => {
       />
 
       <primitive
+        ref={bloodSpatteredRef}
         object={bloodSpatteredScene}
         position={[0, 0.05, 1.5]}
         scale={[0.05, 0.05, 0.05]}
@@ -58,6 +92,7 @@ const MediumRoomScene = ({ onLoaded }) => {
       />
 
       <primitive
+        ref={portraitRef}
         object={portraitScene}
         position={[-1.8, 1.6, 3.2]}
         scale={[0.04, 0.04, 0.04]}
@@ -65,11 +100,22 @@ const MediumRoomScene = ({ onLoaded }) => {
       />
 
       <primitive
+        ref={carpetRef}
         object={carpetScene}
         position={[-1.6, 0.1, 0]}
         scale={[0.6, 0.6, 0.6]}
         rotation={[0, 1.5, 0]}
       />
+
+      {/* Only start WebGazer when objects are ready */}
+      {objectsReady && (
+        <WebGazerComponent
+          camera={camera}
+          renderer={renderer}
+          objectsToCheck={objectsToCheck}
+          setScore={setScore}
+        />
+      )}
     </>
   );
 };
