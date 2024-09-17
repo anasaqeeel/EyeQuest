@@ -13,22 +13,22 @@ const HardRoom = () => {
     const intervalRef = useRef(null); // To keep track of setInterval
 
     // Start the countdown timer when models are loaded
-    useEffect(() => {
-        if (isLoaded) {
-            intervalRef.current = setInterval(() => {
-                setTimeLeft((prevTime) => {
-                    if (prevTime <= 1) {
-                        clearInterval(intervalRef.current);
-                        setIsGameOver(true);
-                        return 0;
-                    }
-                    return prevTime - 1;
-                });
-            }, 1000); // Update every second
-        }
+    // useEffect(() => {
+    //     if (isLoaded) {
+    //         intervalRef.current = setInterval(() => {
+    //             setTimeLeft((prevTime) => {
+    //                 if (prevTime <= 1) {
+    //                     clearInterval(intervalRef.current);
+    //                     setIsGameOver(true);
+    //                     return 0;
+    //                 }
+    //                 return prevTime - 1;
+    //             });
+    //         }, 1000); // Update every second
+    //     }
 
-        return () => clearInterval(intervalRef.current); // Clean up interval on component unmount
-    }, [isLoaded]);
+    //     return () => clearInterval(intervalRef.current); // Clean up interval on component unmount
+    // }, [isLoaded]);
 
     useEffect(() => {
         if (isGameOver) {
@@ -48,7 +48,7 @@ const HardRoom = () => {
     return (
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
             <Canvas
-                camera={{ position: [0, 2, 5], fov: 45, near: 0.1, far: 1000 }}
+                camera={{ position: [-2, 1.995, 2.9], fov: 45, near: 0.1, far: 1000 }}
                 style={{ width: '100%', height: '100%' }}
             >
                 <ambientLight intensity={0.5} color="#ffffff" />

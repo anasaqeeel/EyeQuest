@@ -1,9 +1,9 @@
 // HardRoomScene.js
 import React, { useRef, useState, useEffect } from 'react';
-import { useThree } from '@react-three/fiber';
+import { useThree, extend } from '@react-three/fiber';
 import { useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
-import WebGazerComponent from '../hooks/WebGazerComponent';
+import WebGazerComponent from '../hooks/WebGazerComponent'; // Moved to components
 
 const HardRoomScene = ({ onLoaded, setScore }) => {
   const snakeRef = useRef();
@@ -16,17 +16,18 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
   const carpetRef = useRef();
 
   const [objectsReady, setObjectsReady] = useState(false);
-  const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
-  const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
-  const { scene: snakeScene } = useGLTF('/model/snake/scene.gltf');
-  const { scene: deadBodyScene } = useGLTF('/model/dead_body/scene.gltf');
-  const { scene: skullScene } = useGLTF('/model/skull_downloadable/scene.gltf');
-  const { scene: skeletonScene } = useGLTF('/model/skeleton/scene.gltf');
-  const { scene: bloodSpatteredScene } = useGLTF('/model/blood_spattered/scene.gltf');
-  const { scene: portraitScene } = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf');
-  const { scene: carpetScene } = useGLTF('/model/carpet_fluffy/scene.gltf');
 
-  const { camera, gl: renderer } = useThree();
+  const horrorRoom = useGLTF('/model/horror_room/scene.gltf');
+  const fragKnife = useGLTF('/model/frag_knife/scene.gltf');
+  const snake = useGLTF('/model/snake/scene.gltf');
+  const deadBody = useGLTF('/model/dead_body/scene.gltf');
+  const skull = useGLTF('/model/skull_downloadable/scene.gltf');
+  const skeleton = useGLTF('/model/skeleton/scene.gltf');
+  const bloodSpattered = useGLTF('/model/blood_spattered/scene.gltf');
+  const portrait = useGLTF('/model/peinture_portrait_edmon_picard_1884/scene.gltf');
+  const carpet = useGLTF('/model/carpet_fluffy/scene.gltf');
+
+  const { camera, gl: renderer, clock } = useThree();
 
   const objectsToCheck = [
     snakeRef.current,
@@ -99,7 +100,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
   // Animation for the snake
   useEffect(() => {
-    const animateSnake = (clock) => {
+    const animateSnake = () => {
       if (snakeRef.current) {
         // Rotate the snake
         snakeRef.current.rotation.y += 0.05;
@@ -115,26 +116,25 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
     };
 
     // Add a frame listener
-    const { clock } = useThree();
-    const handleFrame = () => animateSnake(clock);
+    const handleFrame = () => animateSnake();
 
-    const unsubscribe = useThree().gl.setAnimationLoop(handleFrame);
+    renderer.setAnimationLoop(handleFrame);
 
     return () => {
-      useThree().gl.setAnimationLoop(null);
+      renderer.setAnimationLoop(null);
     };
-  }, [snakeRef, useThree]);
+  }, [clock, renderer]);
 
   return (
     <>
       <ambientLight intensity={0.5} color="#ffffff" />
       <directionalLight intensity={1} position={[10, 10, 10]} color="#ffffff" />
 
-      <primitive object={horrorRoomScene} position={[0, 0, 0]} />
+      <primitive object={horrorRoom.scene} position={[0, 0, 0]} />
 
       <primitive
         ref={fragKnifeRef}
-        object={fragKnifeScene}
+        object={fragKnife.scene}
         position={[0, 0.2, 0]}
         scale={[0.2, 0.2, 0.2]}
         rotation={[0, Math.PI / 4, 0]}
@@ -142,7 +142,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={snakeRef}
-        object={snakeScene}
+        object={snake.scene}
         position={[0.5, 0.6, 2.8]}
         scale={[0.2, 0.2, 0.2]}
         rotation={[0, Math.PI / 4, 0]}
@@ -150,7 +150,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={deadBodyRef}
-        object={deadBodyScene}
+        object={deadBody.scene}
         position={[1.8, 0.1, 0]}
         scale={[0.009, 0.009, 0.009]}
         rotation={[1.5, 3.0, 0]}
@@ -158,7 +158,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={skullRef}
-        object={skullScene}
+        object={skull.scene}
         position={[-1.8, 1.0, 1.5]}
         scale={[0.2, 0.2, 0.2]}
         rotation={[0.8, 2.5, 0]}
@@ -166,7 +166,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={skeletonRef}
-        object={skeletonScene}
+        object={skeleton.scene}
         position={[-2.8, 0.7, 1.5]}
         scale={[0.5, 0.5, 0.5]}
         rotation={[0, 1.8, 0]}
@@ -174,7 +174,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={bloodSpatteredRef}
-        object={bloodSpatteredScene}
+        object={bloodSpattered.scene}
         position={[0, 0.05, 1.5]}
         scale={[0.05, 0.05, 0.05]}
         rotation={[0, 1.8, 0]}
@@ -182,7 +182,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={portraitRef}
-        object={portraitScene}
+        object={portrait.scene}
         position={[-1.8, 1.6, 3.2]}
         scale={[0.04, 0.04, 0.04]}
         rotation={[0, 3.1, 0]}
@@ -190,14 +190,14 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
 
       <primitive
         ref={carpetRef}
-        object={carpetScene}
+        object={carpet.scene}
         position={[-1.6, 0.1, 0]}
         scale={[0.6, 0.6, 0.6]}
         rotation={[0, 1.5, 0]}
       />
 
       {/* Score Display using Html component */}
-      <Html position={[0, 2, 0]}>
+      {/* <Html position={[0, 2, 0]}>
         <div
           style={{
             color: 'white',
@@ -210,7 +210,7 @@ const HardRoomScene = ({ onLoaded, setScore }) => {
         >
           Score: {score}
         </div>
-      </Html>
+      </Html> */}
 
       {/* Start WebGazerComponent */}
       {objectsReady && (
