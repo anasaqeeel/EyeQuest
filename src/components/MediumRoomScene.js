@@ -14,6 +14,7 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
 
   const [objectsReady, setObjectsReady] = useState(false);
   const [objectsToCheck, setObjectsToCheck] = useState([]);
+  const [objectNames, setObjectNames] = useState([]);
 
   const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
   const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
@@ -30,9 +31,9 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
       fragKnifeRef.current &&
       skullRef.current &&
       skeletonRef.current &&
-      bloodSpatteredRef.current
-      // portraitRef.current &&
-      // carpetRef.current
+      bloodSpatteredRef.current &&
+      portraitRef.current &&
+      carpetRef.current
     ) {
       setObjectsReady(true);
       setObjectsToCheck([
@@ -43,6 +44,16 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
         portraitRef.current,
         carpetRef.current,
       ]);
+
+      setObjectNames([
+        'Knife',
+        'Skull',
+        'Skeleton',
+        'Blood Spatter',
+        'Portrait',
+        'Carpet',
+      ]);
+
       if (onLoaded) {
         onLoaded();
       }
@@ -101,18 +112,18 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
         rotation={[0, 1.5, 0]}
       />
 
-      {
-        objectsReady && (
-          <WebGazerComponent
-            camera={camera}
-            renderer={renderer}
-            objectsToCheck={objectsToCheck}
-            setScore={setScore}
-            onVictory={onVictory}
-          />
-        )
-      }
+      {objectsReady && (
+        <WebGazerComponent
+          camera={camera}
+          renderer={renderer}
+          objectsToCheck={objectsToCheck}
+          objectNames={objectNames} // Pass object names here
+          setScore={setScore}
+          onVictory={onVictory}
+        />
+      )}
     </>
-  )
+  );
 };
+
 export default MediumRoomScene;

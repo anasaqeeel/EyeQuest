@@ -27,6 +27,7 @@ const HardRoom = () => {
                 </Suspense>
                 <OrbitControls enableDamping={true} />
             </Canvas>
+
             {/* Score Display */}
             <div
                 style={{
@@ -44,22 +45,25 @@ const HardRoom = () => {
             >
                 Score: {score}
             </div>
+
+            {/* Victory Message */}
             {isGameOver && (
                 <div
                     style={{
                         position: 'fixed',
                         top: '50%',
                         left: '50%',
-                        transform: 'translate(-50%,-50% )',
-                        color: 'white', fontSize: '36px',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'white',
+                        fontSize: '36px',
                         fontWeight: 'bold',
+                        textAlign: 'center',
                     }}
                 >
                     You Win!
                 </div>
-            )
-            }
-        </div >
+            )}
+        </div>
     );
 };
 

@@ -11,6 +11,7 @@ const EasyRoomScene = ({ onLoaded, setScore, onVictory }) => {
 
   const [objectsReady, setObjectsReady] = useState(false);
   const [objectsToCheck, setObjectsToCheck] = useState([]);
+  const [objectNames, setObjectNames] = useState([]);
 
   const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
   const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
@@ -31,6 +32,13 @@ const EasyRoomScene = ({ onLoaded, setScore, onVictory }) => {
         skullRef.current,
         bloodSpatteredRef.current,
       ]);
+
+      setObjectNames([
+        'Knife',
+        'Skull',
+        'Blood Spatter',
+      ]);
+
       if (onLoaded) {
         onLoaded();
       }
@@ -39,9 +47,6 @@ const EasyRoomScene = ({ onLoaded, setScore, onVictory }) => {
 
   return (
     <>
-      <ambientLight intensity={0.5} color={0xffffff} />
-      <directionalLight intensity={1} position={[10, 10, 10]} color={0xffffff} />
-
       <primitive object={horrorRoomScene} position={[0, 0, 0]} />
 
       <primitive
@@ -73,6 +78,7 @@ const EasyRoomScene = ({ onLoaded, setScore, onVictory }) => {
           camera={camera}
           renderer={renderer}
           objectsToCheck={objectsToCheck}
+          objectNames={objectNames} // Pass object names here
           setScore={setScore}
           onVictory={onVictory}
         />
