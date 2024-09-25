@@ -8,6 +8,26 @@ import './MediumRoom.css';
 const MediumRoom = () => {
     const [isGameOver, setIsGameOver] = useState(false);
     const [score, setScore] = useState(0);
+    const [timeLeft, setTimeLeft] = useState(60);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const intervalRef = useRef(null);
+
+    useEffect(() => {
+        if (isLoaded && !isGameOver) {
+            intervalRef.current = setInterval(() => {
+                setTimeLeft((prevTime) => {
+                    if (prevTime <= 1) {
+                        clearInterval(intervalRef.current);
+                        setIsGameOver(true);
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+        }
+
+        return () => clearInterval(intervalRef.current);
+    }, [isLoaded, isGameOver]);
 
     const handleVictory = () => {
         setIsGameOver(true);
@@ -23,10 +43,35 @@ const MediumRoom = () => {
                 <ambientLight intensity={0.5} color="#ffffff" />
                 <directionalLight intensity={1} position={[10, 10, 10]} color="#ffffff" />
                 <Suspense fallback={null}>
-                    <MediumRoomScene setScore={setScore} onVictory={handleVictory} />
+                    <MediumRoomScene
+                        onLoaded={() => setIsLoaded(true)}
+                        setScore={setScore}
+                        onVictory={handleVictory}
+                    />
                 </Suspense>
                 <OrbitControls enableDamping={true} />
             </Canvas>
+
+            {/* Timer Display */}
+            {!isGameOver && isLoaded && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '10px',
+                        left: '10px',
+                        color: 'white',
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        zIndex: 1000,
+                    }}
+                >
+                    Time Left: {timeLeft} seconds
+                </div>
+            )}
+
             {/* Score Display */}
             <div
                 style={{
@@ -44,6 +89,8 @@ const MediumRoom = () => {
             >
                 Score: {score}
             </div>
+
+            {/* Game Over or Victory Message */}
             {isGameOver && (
                 <div
                     style={{
@@ -54,9 +101,10 @@ const MediumRoom = () => {
                         color: 'white',
                         fontSize: '36px',
                         fontWeight: 'bold',
+                        textAlign: 'center',
                     }}
                 >
-                    You Win!
+                    {score === 6 ? 'You Win!' : 'Game Over! You Lost!'}
                 </div>
             )}
         </div>

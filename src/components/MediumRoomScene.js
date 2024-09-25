@@ -30,9 +30,9 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
       fragKnifeRef.current &&
       skullRef.current &&
       skeletonRef.current &&
-      bloodSpatteredRef.current &&
-      portraitRef.current &&
-      carpetRef.current
+      bloodSpatteredRef.current
+      // portraitRef.current &&
+      // carpetRef.current
     ) {
       setObjectsReady(true);
       setObjectsToCheck([
