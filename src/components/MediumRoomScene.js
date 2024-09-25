@@ -2,10 +2,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
 import WebGazerComponent from '../hooks/WebGazerComponent';
 
-const MediumRoomScene = ({ onLoaded, setScore }) => {
+const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
   const fragKnifeRef = useRef();
   const skullRef = useRef();
   const skeletonRef = useRef();
@@ -14,6 +13,8 @@ const MediumRoomScene = ({ onLoaded, setScore }) => {
   const carpetRef = useRef();
 
   const [objectsReady, setObjectsReady] = useState(false);
+  const [objectsToCheck, setObjectsToCheck] = useState([]);
+
   const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
   const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
   const { scene: skullScene } = useGLTF('/model/skull_downloadable/scene.gltf');
@@ -24,41 +25,34 @@ const MediumRoomScene = ({ onLoaded, setScore }) => {
 
   const { camera, gl: renderer } = useThree();
 
-  const objectsToCheck = [
-    fragKnifeRef.current,
-    skullRef.current,
-    skeletonRef.current,
-    bloodSpatteredRef.current,
-    portraitRef.current,
-    carpetRef.current,
-  ];
-
-  // Ensure all objects are loaded before starting the game and WebGazer
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (
-        fragKnifeRef.current &&
-        skullRef.current &&
-        skeletonRef.current &&
-        bloodSpatteredRef.current &&
-        portraitRef.current &&
-        carpetRef.current
-      ) {
-        setObjectsReady(true);
-        onLoaded(); // Notify parent that loading is complete
-        clearInterval(interval);
+    if (
+      fragKnifeRef.current &&
+      skullRef.current &&
+      skeletonRef.current &&
+      bloodSpatteredRef.current &&
+      portraitRef.current &&
+      carpetRef.current
+    ) {
+      setObjectsReady(true);
+      setObjectsToCheck([
+        fragKnifeRef.current,
+        skullRef.current,
+        skeletonRef.current,
+        bloodSpatteredRef.current,
+        portraitRef.current,
+        carpetRef.current,
+      ]);
+      if (onLoaded) {
+        onLoaded();
       }
-    }, 100);
-
-    return () => clearInterval(interval);
+    }
   }, [onLoaded]);
 
   return (
     <>
-      {/* Add the room scene */}
       <primitive object={horrorRoomScene} position={[0, 0, 0]} />
 
-      {/* Add models with refs to track their gaze */}
       <primitive
         ref={fragKnifeRef}
         object={fragKnifeScene}
@@ -107,17 +101,18 @@ const MediumRoomScene = ({ onLoaded, setScore }) => {
         rotation={[0, 1.5, 0]}
       />
 
-      {/* Only start WebGazer when objects are ready */}
-      {objectsReady && (
-        <WebGazerComponent
-          camera={camera}
-          renderer={renderer}
-          objectsToCheck={objectsToCheck}
-          setScore={setScore}
-        />
-      )}
+      {
+        objectsReady && (
+          <WebGazerComponent
+            camera={camera}
+            renderer={renderer}
+            objectsToCheck={objectsToCheck}
+            setScore={setScore}
+            onVictory={onVictory}
+          />
+        )
+      }
     </>
-  );
+  )
 };
-
 export default MediumRoomScene;
