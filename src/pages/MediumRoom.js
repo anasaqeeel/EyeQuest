@@ -1,4 +1,3 @@
-// MediumRoom.js
 import React, { Suspense, useState, useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import MediumRoomScene from '../components/MediumRoomScene';
@@ -52,7 +51,6 @@ const MediumRoom = () => {
                 <OrbitControls enableDamping={true} />
             </Canvas>
 
-            {/* Timer Display */}
             {!isGameOver && isLoaded && (
                 <div
                     style={{
@@ -72,7 +70,6 @@ const MediumRoom = () => {
                 </div>
             )}
 
-            {/* Score Display */}
             <div
                 style={{
                     position: 'fixed',
@@ -90,7 +87,6 @@ const MediumRoom = () => {
                 Score: {score}
             </div>
 
-            {/* Game Over or Victory Message */}
             {isGameOver && (
                 <div
                     style={{

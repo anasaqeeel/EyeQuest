@@ -1,4 +1,3 @@
-// HardRoom.js
 import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import HardRoomScene from '../components/HardRoomScene';
@@ -28,7 +27,6 @@ const HardRoom = () => {
                 <OrbitControls enableDamping={true} />
             </Canvas>
 
-            {/* Score Display */}
             <div
                 style={{
                     position: 'fixed',
@@ -46,7 +44,6 @@ const HardRoom = () => {
                 Score: {score}
             </div>
 
-            {/* Victory Message */}
             {isGameOver && (
                 <div
                     style={{

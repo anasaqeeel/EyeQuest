@@ -1,8 +1,7 @@
-// LandingPage.js
 import React, { Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
-import EasyRoomScene from '../components/EasyRoomScene'; // Adjust the path if necessary
+import EasyRoomScene from '../components/EasyRoomScene';
 import { OrbitControls } from '@react-three/drei';
 import './LandingPage.css';
 

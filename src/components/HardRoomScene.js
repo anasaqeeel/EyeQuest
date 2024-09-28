@@ -1,4 +1,3 @@
-// HardRoomScene.js
 import React, { useRef, useState, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
@@ -19,7 +18,6 @@ const HardRoomScene = ({ onLoaded, setScore, onVictory }) => {
 
   const [deadBodyVisible, setDeadBodyVisible] = useState(true);
 
-  // Load models
   const { scene: horrorRoomScene } = useGLTF('/model/horror_room/scene.gltf');
   const { scene: fragKnifeScene } = useGLTF('/model/frag_knife/scene.gltf');
   const { scene: deadBodyScene } = useGLTF('/model/dead_body/scene.gltf');
@@ -37,9 +35,7 @@ const HardRoomScene = ({ onLoaded, setScore, onVictory }) => {
       deadBodyRef.current &&
       skullRef.current &&
       skeletonRef.current &&
-      bloodSpatteredRef.current &&
-      portraitRef.current &&
-      carpetRef.current
+      bloodSpatteredRef.current
     ) {
       setObjectsReady(true);
       setObjectsToCheck([
@@ -48,8 +44,6 @@ const HardRoomScene = ({ onLoaded, setScore, onVictory }) => {
         skullRef.current,
         skeletonRef.current,
         bloodSpatteredRef.current,
-        portraitRef.current,
-        carpetRef.current,
       ]);
 
       setObjectNames([
@@ -58,8 +52,8 @@ const HardRoomScene = ({ onLoaded, setScore, onVictory }) => {
         'Skull',
         'Skeleton',
         'Blood Spatter',
-        'Portrait',
-        'Carpet',
+        // 'Portrait',
+        // 'Carpet',
       ]);
 
       if (onLoaded) {
@@ -68,13 +62,12 @@ const HardRoomScene = ({ onLoaded, setScore, onVictory }) => {
     }
   }, [onLoaded]);
 
-  // Implement random appearance of the dead body
   useEffect(() => {
     const toggleVisibility = () => {
       setDeadBodyVisible((prev) => !prev);
     };
 
-    const interval = setInterval(toggleVisibility, 5000); // Toggle every 5 seconds
+    const interval = setInterval(toggleVisibility, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -146,7 +139,7 @@ const HardRoomScene = ({ onLoaded, setScore, onVictory }) => {
           camera={camera}
           renderer={renderer}
           objectsToCheck={objectsToCheck}
-          objectNames={objectNames} // Pass object names here
+          objectNames={objectNames}
           setScore={setScore}
           onVictory={onVictory}
         />

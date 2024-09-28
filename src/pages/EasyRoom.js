@@ -1,4 +1,3 @@
-// EasyRoom.js
 import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import EasyRoomScene from '../components/EasyRoomScene';
@@ -27,7 +26,6 @@ const EasyRoom = () => {
         </Suspense>
         <OrbitControls enableDamping={true} />
       </Canvas>
-      {/* Score Display */}
       <div
         style={{
           position: 'fixed',

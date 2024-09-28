@@ -1,4 +1,3 @@
-// EasyRoomScene.js
 import React, { useRef, useState, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
@@ -78,7 +77,7 @@ const EasyRoomScene = ({ onLoaded, setScore, onVictory }) => {
           camera={camera}
           renderer={renderer}
           objectsToCheck={objectsToCheck}
-          objectNames={objectNames} // Pass object names here
+          objectNames={objectNames}
           setScore={setScore}
           onVictory={onVictory}
         />

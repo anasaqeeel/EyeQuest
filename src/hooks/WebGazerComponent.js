@@ -1,8 +1,7 @@
-// WebGazerComponent.js
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-import { Html } from '@react-three/drei'; // Import Html component
+import { Html } from '@react-three/drei';
 const WebGazerComponent = ({
   camera,
   renderer,
@@ -16,7 +15,6 @@ const WebGazerComponent = ({
 
   const isWebGazerInitialized = useRef(false);
 
-  // Refs to hold the latest values
   const cameraRef = useRef(camera);
   const rendererRef = useRef(renderer);
   const objectsToCheckRef = useRef(objectsToCheck);
@@ -81,7 +79,7 @@ const WebGazerComponent = ({
     objectsToCheck.forEach((object, index) => {
       if (object) {
         const screenPosition = toScreenPosition(object, camera, renderer);
-        const radius = 100; // Adjust the radius as needed
+        const radius = 100;
 
         if (
           Math.abs(x - screenPosition.x) <= radius &&
@@ -97,10 +95,8 @@ const WebGazerComponent = ({
             }
             console.log(`Score updated: ${newScore}`);
 
-            // Display notification with object name
             if (objectNames && objectNames[index]) {
               setNotification(`Detected: ${objectNames[index]}`);
-              // Hide the notification after 3 seconds
               setTimeout(() => {
                 setNotification('');
               }, 3000);
@@ -140,7 +136,6 @@ const WebGazerComponent = ({
     }
   };
 
-  // Initialize WebGazer only once
   useEffect(() => {
     if (!window.webgazer) {
       console.error('WebGazer not found');
@@ -182,7 +177,7 @@ const WebGazerComponent = ({
         }
       }
     };
-  }, []); // Empty dependency array
+  }, []);
   return (
     <>
       {notification && (

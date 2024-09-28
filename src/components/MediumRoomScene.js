@@ -1,4 +1,3 @@
-// MediumRoomScene.js
 import React, { useRef, useState, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
@@ -31,9 +30,7 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
       fragKnifeRef.current &&
       skullRef.current &&
       skeletonRef.current &&
-      bloodSpatteredRef.current &&
-      portraitRef.current &&
-      carpetRef.current
+      bloodSpatteredRef.current
     ) {
       setObjectsReady(true);
       setObjectsToCheck([
@@ -41,8 +38,6 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
         skullRef.current,
         skeletonRef.current,
         bloodSpatteredRef.current,
-        portraitRef.current,
-        carpetRef.current,
       ]);
 
       setObjectNames([
@@ -50,8 +45,6 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
         'Skull',
         'Skeleton',
         'Blood Spatter',
-        'Portrait',
-        'Carpet',
       ]);
 
       if (onLoaded) {
@@ -117,7 +110,7 @@ const MediumRoomScene = ({ onLoaded, setScore, onVictory }) => {
           camera={camera}
           renderer={renderer}
           objectsToCheck={objectsToCheck}
-          objectNames={objectNames} // Pass object names here
+          objectNames={objectNames}
           setScore={setScore}
           onVictory={onVictory}
         />
