@@ -1,27 +1,53 @@
-/* src/pages/LandingPage.css */
-
 .landing-page {
-    text-align: center;
-    padding: 50px;
-    background-color: #f0f0f0;
-  }
-  
-  .game-modes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .game-modes a {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-  
-  .game-modes a:hover {
-    background-color: #0056b3;
-  }
-  
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(5px);
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #fff;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.content h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px #000;
+}
+
+.game-modes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.game-modes a {
+  padding: 15px 30px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.game-modes a:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
